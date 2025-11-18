@@ -6,115 +6,107 @@ description: Meet our research team working on federated learning and model comp
 ## Principal Investigators
 
 ### Prof. John Doe
-**Position**: Associate Professor  
-**Institution**: Stanford University, Computer Science Department  
+**Position**: Associate Professor, Computer Science Department  
+**Institution**: Stanford University  
 **Email**: john.doe@stanford.edu  
 **Homepage**: https://johndoe-stanford.edu  
-**Image**: /images/members/john.jpg
-
-**Research Interests**:
-- Federated Learning
-- Model Compression
-- Distributed Optimization
-- Privacy-Preserving Machine Learning
+**Image**: /image/john-doe.jpg  
+**Bio**: John leads the Federated Intelligence Lab where he partners with clinicians, conservationists, and engineers to translate federated learning breakthroughs into resilient field deployments; his current projects blend cross-silo training with sensor-informed pruning.
 
 ---
 
 ### Dr. Jane Smith
-**Position**: Research Scientist  
-**Institution**: Google Research, Brain Team  
+**Position**: Senior Research Scientist, Brain Team  
+**Institution**: Google Research  
 **Email**: jane.smith@google.com  
 **Homepage**: https://janesmith-research.com  
-**Image**: /images/members/jane.jpg
-
-**Research Interests**:
-- Privacy-Preserving ML
-- Neural Network Pruning
-- Efficient Deep Learning
-- Edge AI
+**Image**: /image/jane-smith.jpg  
+**Bio**: Jane architects privacy-preserving pipelines that safeguard sensitive health and geospatial data while enabling rich model compression insights, and she mentors multidisciplinary teams on globally distributed deployments.
 
 ---
 
 ## PhD Students
 
 ### Alice Wang
+**Position**: PhD Candidate  
 **Institution**: Stanford University  
-**Year**: 3rd Year PhD  
-**Focus**: Federated Pruning Algorithms for Heterogeneous Devices  
 **Email**: alice.wang@stanford.edu  
-**Image**: /images/members/alice.jpg
-
-**Research Interests**:
-- Federated Learning
-- Model Compression
-- Device Heterogeneity
+**Homepage**: https://alicewang.ai  
+**Image**: /image/alice-wang.jpg  
+**Bio**: Alice builds adaptive sparsity controllers that tailor pruned subnetworks to device capabilities, combining theoretical guarantees with in-the-wild experiments across mobile and edge cohorts.
 
 ---
 
 ### Bob Chen
+**Position**: PhD Researcher  
 **Institution**: Stanford University  
-**Year**: 2nd Year PhD  
-**Focus**: Communication-Efficient Federated Learning  
 **Email**: bob.chen@stanford.edu  
-**Image**: /images/members/bob.jpg
-
-**Research Interests**:
-- Distributed Optimization
-- Gradient Compression
-- Federated Analytics
+**Homepage**: https://bobchen.dev  
+**Image**: /image/bob-chen.jpg  
+**Bio**: Bob studies communication-efficient consensus protocols, designing gradient routing schemes that shrink update payloads while preserving accuracy for cross-device federated systems.
 
 ---
 
 ### Emily Zhang
+**Position**: PhD Researcher  
 **Institution**: MIT  
-**Year**: 4th Year PhD  
-**Focus**: Privacy and Security in Federated Learning  
 **Email**: emily.zhang@mit.edu  
-**Image**: /images/members/emily.jpg
-
-**Research Interests**:
-- Differential Privacy
-- Secure Aggregation
-- Byzantine-Robust Learning
+**Homepage**: https://emilyzhang.mit.edu  
+**Image**: /image/emily-zhang.jpg  
+**Bio**: Emily explores privacy-aware pruning, integrating differential privacy budgets with structural compression to deliver traceable safeguards for healthcare and finance collaborators.
 
 ---
 
 ## Master's Students
 
 ### David Lee
+**Position**: MS Student  
 **Institution**: Stanford University  
-**Year**: 1st Year MS  
-**Focus**: Benchmark Development and Evaluation  
 **Email**: david.lee@stanford.edu  
-**Image**: /images/members/david.jpg
+**Homepage**: https://davidlee.io  
+**Image**: /image/david-lee.jpg  
+**Bio**: David curates federated benchmarking suites, orchestrating reproducible pipelines that compare pruning heuristics across heterogeneous sensor networks and industrial IoT fleets.
 
 ---
 
 ### Sarah Johnson
+**Position**: MS Student  
 **Institution**: Carnegie Mellon University  
-**Year**: 2nd Year MS  
-**Focus**: Structured Pruning Methods  
 **Email**: sarah.j@cmu.edu  
-**Image**: /images/members/sarah.jpg
+**Homepage**: https://sarahjohnson.ml  
+**Image**: /image/sarah-johnson.jpg  
+**Bio**: Sarah engineers structured pruning toolchains that pair neural architecture search with federated simulation, helping partners co-design models and hardware accelerators.
 
 ---
 
 ## Alumni
 
 ### Eve Johnson (PhD, 2023)
-**Thesis**: "Adaptive Pruning Strategies for Federated Learning"  
-**Current Position**: Research Scientist at Google Brain
+**Position**: Research Scientist  
+**Institution**: Google DeepMind  
+**Email**: eve.johnson@deepmind.com  
+**Homepage**: https://evejohnson.ai  
+**Image**: /image/eve-johnson.jpg  
+**Bio**: Eve pioneered adaptive pruning policies that keep edge hospitals synchronized, and now she deploys privacy-focused personalization techniques for planet-scale recommendation systems.
 
 ---
 
 ### Michael Brown (PhD, 2022)
-**Thesis**: "Layer-wise Compression in Distributed Settings"  
-**Current Position**: Assistant Professor at UC Berkeley
+**Position**: Assistant Professor  
+**Institution**: UC Berkeley  
+**Email**: michael.brown@berkeley.edu  
+**Homepage**: https://michaelbrown.berkeley.edu  
+**Image**: /image/michael-brown.jpg  
+**Bio**: Michael advances theory-guided compression for federated robotics, unifying control objectives with sparse training regimes in collaboration with autonomous systems labs.
 
 ---
 
 ### Lisa Anderson (MS, 2023)
-**Thesis**: "Privacy Analysis of Federated Pruning"  
-**Current Position**: Machine Learning Engineer at Apple
+**Position**: Machine Learning Engineer  
+**Institution**: Apple  
+**Email**: lisa.anderson@apple.com  
+**Homepage**: https://lisaanderson.ai  
+**Image**: /image/lisa-anderson.jpg  
+**Bio**: Lisa led privacy audits for our pruning stack and now steers production ML systems that blend on-device personalization with resilient compression strategies.
 
 ---
