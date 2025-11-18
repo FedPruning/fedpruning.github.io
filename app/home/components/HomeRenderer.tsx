@@ -2,8 +2,6 @@ import { remark } from 'remark'
 import html from 'remark-html'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import FeatureCards from './FeatureCards'
-import { parseFeatures } from '@/lib/content'
 
 interface HomeRendererProps {
   frontMatter: any
@@ -13,7 +11,6 @@ interface HomeRendererProps {
 export default function HomeRenderer({ frontMatter, content }: HomeRendererProps) {
   const { title, subtitle, description, cta } = frontMatter
   const [contentHtml, setContentHtml] = useState('')
-  const [features, setFeatures] = useState<any[]>([])
 
   useEffect(() => {
     remark()
@@ -22,22 +19,21 @@ export default function HomeRenderer({ frontMatter, content }: HomeRendererProps
       .then((processed) => {
         const html = processed.toString()
         setContentHtml(html)
-        setFeatures(parseFeatures(html))
       })
   }, [content])
 
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-pink-50 via-white to-white py-20 md:py-20">
+      <section className="bg-gradient-to-br from-pink-50 via-white to-white py-12 md:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="flex justify-center mb-10">
+          <div className="flex justify-center mb-6">
             <Image
               src="image/logo-square.png"
               alt="FedPruning Logo"
-              width={160}
-              height={160}
-              className="h-auto w-32 md:w-40"
+              width={130}
+              height={130}
+              className="h-auto w-26 md:w-32"
             />
           </div>
           
@@ -74,12 +70,6 @@ export default function HomeRenderer({ frontMatter, content }: HomeRendererProps
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
         
-        {/* Feature Cards */}
-        {features.length > 0 && (
-          <div className="mt-12">
-            <FeatureCards features={features} />
-          </div>
-        )}
       </section>
     </div>
   )

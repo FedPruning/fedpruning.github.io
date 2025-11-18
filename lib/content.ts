@@ -197,25 +197,3 @@ export function parseMemberGroups(content: string): MemberGroup[] {
   
   return groups
 }
-
-/**
- * Parses HTML content to extract feature cards from h3 headings
- * @param htmlContent - Processed HTML content
- * @returns Array of features
- */
-export function parseFeatures(htmlContent: string): Feature[] {
-  const features: Feature[] = []
-  
-  // Match h3 headings and their following paragraphs
-  const h3Regex = /<h3>([^<]+)<\/h3>\s*(?:<p>([^<]+)<\/p>)?/g
-  let match
-  
-  while ((match = h3Regex.exec(htmlContent)) !== null) {
-    features.push({
-      title: match[1],
-      description: match[2] || '',
-    })
-  }
-  
-  return features
-}

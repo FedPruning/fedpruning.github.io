@@ -53,9 +53,9 @@ export default function MemberGrid({ frontMatter, content }: MemberGridProps) {
   const memberGroups = parseMemberGroups(content)
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Header */}
-      <div className="mb-12">
+      <div className="mb-12 text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           {title}
         </h1>
@@ -69,56 +69,56 @@ export default function MemberGrid({ frontMatter, content }: MemberGridProps) {
       {/* Member Groups */}
       {memberGroups.map((group, groupIndex) => (
         <div key={groupIndex} className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
             {group.title}
           </h2>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="space-y-12">
             {group.members.map((member, memberIndex) => (
-              <div
-                key={memberIndex}
-                className="flex h-full flex-col gap-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-lg sm:flex-row"
-              >
+              <div key={memberIndex} className="flex flex-col sm:flex-row gap-6">
                 {/* Avatar */}
-                <div className="flex-shrink-0">
+                <div className="flex-shrink-0 mx-auto sm:mx-0">
                   <Image
                     src={member.image || '/placeholder-user.jpg'}
                     alt={member.name}
                     width={120}
                     height={120}
-                    className="h-24 w-24 rounded-xl object-cover ring-1 ring-gray-100 sm:h-28 sm:w-28"
+                    className="h-28 w-28 rounded-full object-cover ring-4 ring-gray-100"
                   />
                 </div>
 
                 {/* Info */}
-                <div className="flex flex-1 flex-col">
-                  {/* Name */}
-                  <div>
-                    <h3 className="text-xl font-semibold text-gray-900">
+                <div className="flex-1">
+                  {/* Name and Title */}
+                  <div className="mb-3">
+                    <h3 className="text-2xl font-bold text-gray-900">
                       {member.name}
                     </h3>
-
-                    {(member.position || member.institution || member.year) && (
-                      <div className="mt-2 space-y-1 text-sm text-gray-600">
-                        {member.position && (
-                          <p className="font-semibold text-[#C0165F]">
-                            {member.position}
-                          </p>
-                        )}
-                        {member.institution && <p>{member.institution}</p>}
-                        {member.year && <p>{member.year}</p>}
-                      </div>
+                    {member.position && (
+                      <p className="text-base font-medium text-gray-600 mt-1">
+                        {member.position}
+                      </p>
                     )}
                   </div>
 
+                  {/* Institution and Year */}
+                  {(member.institution || member.year) && (
+                    <div className="mb-3 text-sm text-gray-600">
+                      {member.institution && <p>{member.institution}</p>}
+                      {member.year && <p>{member.year}</p>}
+                    </div>
+                  )}
+
+                  {/* Bio */}
                   {member.bio && (
-                    <p className="mt-4 text-sm leading-relaxed text-gray-700">
+                    <p className="text-sm leading-relaxed text-gray-700 mb-4">
                       {member.bio}
                     </p>
                   )}
 
+                  {/* Links */}
                   {(member.email || member.homepage) && (
-                    <div className="mt-6 flex flex-wrap gap-3 pt-2 text-sm font-semibold text-[#C0165F]">
+                    <div className="flex flex-wrap gap-4 text-sm font-medium text-[#C0165F]">
                       {member.email && (
                         <a
                           href={`mailto:${member.email}`}

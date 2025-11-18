@@ -28,3 +28,102 @@ Standardized evaluation protocols for fair comparison across different methods. 
 
 ### Extensible Design
 Modular architecture for implementing custom pruning strategies. Easily extend base classes to implement your own algorithms and compare with existing methods.
+
+
+## Testing Markdown Syntax
+
+### Text Formatting
+
+This section demonstrates **bold text**, *italic text*, and ***bold italic text***. You can also use `inline code` for technical terms like `FedPruning.train()` or file names.
+
+### Lists
+
+**Unordered List:**
+- First item with regular text
+- Second item with **bold** and *italic*
+- Third item with a [link to documentation](https://example.com)
+  - Nested item 1
+  - Nested item 2
+
+**Ordered List:**
+1. Initialize the federated pruning environment
+2. Configure pruning parameters
+3. Execute the training pipeline
+4. Evaluate compressed model performance
+
+### Code Blocks
+
+**Python Example:**
+```python
+from fedpruning import FedTinyPruner
+
+# Initialize pruner
+pruner = FedTinyPruner(
+    model=model,
+    sparsity=0.5,
+    num_clients=10
+)
+
+# Start federated pruning
+pruner.train(num_rounds=100)
+```
+
+**JSON Configuration:**
+```json
+{
+  "algorithm": "FedTiny",
+  "sparsity": 0.5,
+  "clients": 10,
+  "rounds": 100
+}
+```
+
+### Tables
+
+| Algorithm | Sparsity | Accuracy | Communication Cost |
+|-----------|----------|----------|--------------------|
+| FedTiny   | 50%      | 94.2%    | Low                |
+| DepthFL   | 60%      | 93.8%    | Medium             |
+| PruneFL   | 70%      | 92.5%    | High               |
+
+### Blockquotes
+
+> FedPruning enables efficient model compression in federated learning settings, reducing communication overhead while maintaining model performance.
+> 
+> — Research Paper, 2024
+
+### Links and Images
+
+Check out our [GitHub repository](https://github.com/example/fedpruning) for more examples.
+
+**Image syntax (example):**
+[FedPruning Architecture](https://example.com/architecture.png)
+
+### Horizontal Rule
+
+---
+
+### Task Lists
+
+- [x] Implement FedTiny algorithm
+- [x] Add benchmark suite
+- [ ] Support PyTorch 2.0
+- [ ] Add visualization tools
+
+### Footnotes
+
+FedPruning supports multiple frameworks[^1] and has been tested on various datasets[^2].
+
+[^1]: Currently supports PyTorch and TensorFlow
+[^2]: Including CIFAR-10, CIFAR-100, and ImageNet
+
+### Strikethrough and Highlights
+
+~~Deprecated: Old API~~ Use the new `FedPruner` class instead.
+
+### Emoji Support
+
+🚀 Fast pruning algorithms  
+📊 Comprehensive benchmarks  
+🔧 Easy to customize  
+💡 State-of-the-art performance

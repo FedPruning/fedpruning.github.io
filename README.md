@@ -27,7 +27,8 @@ Update the markdown, save, then refresh the page in the browser to see the new c
 **Homepage (`public/content/home.md`)**
 - Front matter fields (`title`, `subtitle`, `description`, optional `cta` buttons) populate the hero banner.
 - `##` headings create full-width sections.
-- Each `###` heading under “Key Features” becomes a feature card; the first paragraph after the heading is the card text.
+ - The homepage now renders the markdown content directly (using the `HomeRenderer` component).
+ - The renderer processes the markdown starting from the intro paragraph and outputs HTML as-written.
 
 **Members (`public/content/members.md`)**
 - `##` headings create member groups (Principal Investigators, PhD Students, etc.).
