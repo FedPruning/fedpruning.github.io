@@ -29,11 +29,11 @@ export default function HomeRenderer({ frontMatter, content }: HomeRendererProps
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-pink-50 via-white to-white py-20 md:py-28">
+      <section className="bg-gradient-to-br from-pink-50 via-white to-white py-20 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="flex justify-center mb-10">
             <Image
-              src="/logo-square.png"
+              src="image/logo-square.png"
               alt="FedPruning Logo"
               width={160}
               height={160}
