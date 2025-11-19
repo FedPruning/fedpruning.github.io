@@ -83,9 +83,7 @@ description: Meet our research team working on federated learning and model comp
 
 ### Eve Johnson (PhD, 2023)
 **Position**: Research Scientist  
-**Institution**: Google DeepMind  
-**Email**: eve.johnson@deepmind.com  
-**Homepage**: https://evejohnson.ai  
+**Institution**: Google DeepMind   
 **Image**: /image/eve-johnson.jpg  
 **Bio**: Eve pioneered adaptive pruning policies that keep edge hospitals synchronized, and now she deploys privacy-focused personalization techniques for planet-scale recommendation systems.
 
@@ -94,8 +92,7 @@ description: Meet our research team working on federated learning and model comp
 ### Michael Brown (PhD, 2022)
 **Position**: Assistant Professor  
 **Institution**: UC Berkeley  
-**Email**: michael.brown@berkeley.edu  
-**Homepage**: https://michaelbrown.berkeley.edu  
+**Email**: michael.brown@berkeley.edu   
 **Image**: /image/michael-brown.jpg  
 **Bio**: Michael advances theory-guided compression for federated robotics, unifying control objectives with sparse training regimes in collaboration with autonomous systems labs.
 
@@ -104,7 +101,6 @@ description: Meet our research team working on federated learning and model comp
 ### Lisa Anderson (MS, 2023)
 **Position**: Machine Learning Engineer  
 **Institution**: Apple  
-**Email**: lisa.anderson@apple.com  
 **Homepage**: https://lisaanderson.ai  
 **Image**: /image/lisa-anderson.jpg  
 **Bio**: Lisa led privacy audits for our pruning stack and now steers production ML systems that blend on-device personalization with resilient compression strategies.
