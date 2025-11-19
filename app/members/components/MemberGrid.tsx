@@ -79,7 +79,7 @@ export default function MemberGrid({ frontMatter, content }: MemberGridProps) {
                 {/* Avatar */}
                 <div className="flex-shrink-0 mx-auto sm:mx-0">
                   <Image
-                    src={member.image || '/placeholder-user.jpg'}
+                    src={member.image || 'images/placeholder-user.jpg'}
                     alt={member.name}
                     width={120}
                     height={120}
