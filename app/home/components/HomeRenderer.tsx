@@ -1,7 +1,8 @@
-import { remark } from 'remark'
-import html from 'remark-html'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { remark } from 'remark'
+import html from 'remark-html'
+import remarkGfm from 'remark-gfm'
 
 interface HomeRendererProps {
   frontMatter: any
@@ -14,6 +15,7 @@ export default function HomeRenderer({ frontMatter, content }: HomeRendererProps
 
   useEffect(() => {
     remark()
+      .use(remarkGfm)
       .use(html)
       .process(content)
       .then((processed) => {

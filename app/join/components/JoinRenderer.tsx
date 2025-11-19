@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react'
 import { remark } from 'remark'
 import html from 'remark-html'
-import { useEffect, useState } from 'react'
+import remarkGfm from 'remark-gfm'
 
 interface JoinRendererProps {
   frontMatter: any
@@ -13,6 +14,7 @@ export default function JoinRenderer({ frontMatter, content }: JoinRendererProps
 
   useEffect(() => {
     remark()
+      .use(remarkGfm)
       .use(html)
       .process(content)
       .then((processed) => {
