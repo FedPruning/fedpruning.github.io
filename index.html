@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FedPruning - 联邦剪枝</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+            --light-text: #f8f9fa;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+
+        nav ul li a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover, 
+        nav ul li a.active {
+            background-color: var(--secondary-color);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Main Content Styles */
+        main {
+            min-height: calc(100vh - 160px);
+            padding: 2rem 0;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .page-header h2 {
+            font-size: 2.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        /* About Page */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .about-text p {
+            margin-bottom: 1rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .feature {
+            background: white;
+            padding: 1.2rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .feature h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        /* GitHub Page */
+        .github-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .repo-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .repo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .repo-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .repo-title i {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+        }
+
+        .repo-title h3 {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .repo-stats {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--light-color);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .repo-description {
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .repo-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.7rem 1.5rem;
+            background: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--secondary-color);
+            color: var(--secondary-color);
+        }
+
+        .btn-outline:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        /* Publications Page */
+        .publications-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .publication-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .publication-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .publication-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .publication-title {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .publication-authors {
+            color: #666;
+            margin-bottom: 0.8rem;
+            font-style: italic;
+        }
+
+        .publication-venue {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+
+        .publication-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .publication-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .publication-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Documents Page */
+        .documents-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .doc-categories {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 0.7rem 1.5rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .category-btn.active {
+            background: var(--secondary-color);
+            color: white;
+            border-color: var(--secondary-color);
+        }
+
+        .doc-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .doc-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .doc-icon {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .doc-title {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .doc-description {
+            flex-grow: 1;
+            margin-bottom: 1.2rem;
+            color: #666;
+        }
+
+        .doc-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Members Page */
+        .members-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .member-groups {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .member-group h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .member-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .member-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .member-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .member-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+            border: 3px solid var(--secondary-color);
+        }
+
+        .member-name {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            color: var(--secondary-color);
+            font-weight: 500;
+            margin-bottom: 0.8rem;
+        }
+
+        .member-bio {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .member-links {
+            display: flex;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .member-links a {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .member-links a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* Footer Styles */
+        footer {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+            padding: 2rem 0;
+            margin-top: 2rem;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+            color: var(--secondary-color);
+        }
+
+        .footer-section p {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--light-text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary-color);
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--light-text);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 0.5rem;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .repo-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .repo-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .repo-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+
+            .doc-list {
+                grid-template-columns: 1fr;
+            }
+
+            .member-list {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-project-diagram logo-icon"></i>
+                    <h1>FedPruning</h1>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-page="about">关于</a></li>
+                        <li><a href="#" class="nav-link" data-page="github">GitHub</a></li>
+                        <li><a href="#" class="nav-link" data-page="publications">出版物</a></li>
+                        <li><a href="#" class="nav-link" data-page="documents">文档</a></li>
+                        <li><a href="#" class="nav-link" data-page="members">团队成员</a></li>
+                    </ul>
+                </nav>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- About Page -->
+            <section id="about" class="page active">
+                <div class="page-header">
+                    <h2>关于 FedPruning</h2>
+                    <p>高效的联邦学习模型剪枝框架</p>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>项目简介</h3>
+                        <p>FedPruning 是一个创新的联邦学习框架，专注于在保护数据隐私的同时，通过模型剪枝技术优化神经网络模型的效率和性能。</p>
+                        <p>我们的方法允许在分布式设备上训练更小、更高效的模型，同时保持与完整模型相当的准确性。</p>
+                        
+                        <h3>核心优势</h3>
+                        <div class="features">
+                            <div class="feature">
+                                <i class="fas fa-shield-alt"></i>
+                                <h4>隐私保护</h4>
+                                <p>数据保留在本地设备，仅共享模型更新</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <h4>高效性能</h4>
+                                <p>通过剪枝减少模型大小和计算需求</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-mobile-alt"></i>
+                                <h4>设备友好</h4>
+                                <p>优化资源受限设备的模型部署</p>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-chart-line"></i>
+                                <h4>可扩展性</h4>
+                                <p>支持大规模分布式训练环境</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://via.placeholder.com/500x400/3498db/ffffff?text=FedPruning+Architecture" alt="FedPruning Architecture" style="width:100%; border-radius:8px; box-shadow: var(--shadow);">
+                    </div>
+                </div>
+            </section>
+
+            <!-- GitHub Page -->
+            <section id="github" class="page">
+                <div class="page-header">
+                    <h2>GitHub 仓库</h2>
+                    <p>探索我们的代码库并参与贡献</p>
+                </div>
+                <div class="github-content">
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <div class="repo-title">
+                                <i class="fab fa-github"></i>
+                                <h3>FedPruning</h3>
+                            </div>
+                            <div class="repo-stats">
+                                <div class="stat">
+                                    <i class="fas fa-star"></i>
+                                    <span>256</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-code-branch"></i>
+                                    <span>42</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>1.2k</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="repo-description">
+                            <p>FedPruning 是一个高效的联邦学习模型剪枝框架，支持多种剪枝策略和联邦学习算法。该项目旨在在保护数据隐私的同时，优化神经网络模型的效率和性能。</p>
+                        </div>
+                        <div class="repo-actions">
+                            <a href="#" class="btn">
+                                <i class="fas fa-code"></i>
+                                查看代码
+                            </a>
+                            <a href="#" class="btn btn-outline">
+                                <i class="fas fa-book"></i>
+                                文档
+                            </a>
+                            <a href="#" class="btn btn-outline">
+                                <i class="fas fa-bug"></i>
+                                报告问题
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="repo-card">
+                        <div class="repo-header">
+                            <div class="repo-title">
+                                <i class="fab fa-github"></i>
+                                <h3>FedPruning-Benchmarks</h3>
+                            </div>
+                            <div class="repo-stats">
+                                <div class="stat">
+                                    <i class="fas fa-star"></i>
+                                    <span>89</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-code-branch"></i>
+                                    <span>15</span>
+                                </div>
+                                <div class="stat">
+                                    <i class="fas fa-eye"></i>
+                                    <span>432</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="repo-description">
+                            <p>FedPruning 基准测试仓库，包含多种数据集和模型上的性能比较，以及与其他联邦学习框架的对比结果。</p>
+                        </div>
+                        <div class="repo-actions">
+                            <a href="#" class="btn">
+                                <i class="fas fa-code"></i>
+                                查看代码
+                            </a>
+                            <a href="#" class="btn btn-outline">
+                                <i class="fas fa-chart-bar"></i>
+                                查看结果
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Publications Page -->
+            <section id="publications" class="page">
+                <div class="page-header">
+                    <h2>出版物</h2>
+                    <p>我们的研究成果和学术论文</p>
+                </div>
+                <div class="publications-content">
+                    <div class="publication-list">
+                        <div class="publication-item">
+                            <h3 class="publication-title">FedPruning: Efficient Federated Learning with Adaptive Model Pruning</h3>
+                            <p class="publication-authors">张明, 李华, 王强, 刘芳</p>
+                            <p class="publication-venue">Neural Information Processing Systems (NeurIPS), 2023</p>
+                            <p>本文提出了一种自适应的联邦学习模型剪枝方法，能够在保护数据隐私的同时，显著降低通信和计算开销。</p>
+                            <div class="publication-links">
+                                <a href="#"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="#"><i class="fas fa-code"></i> Code</a>
+                                <a href="#"><i class="fas fa-video"></i> Video</a>
+                            </div>
+                        </div>
+
+                        <div class="publication-item">
+                            <h3 class="publication-title">Dynamic Pruning for Communication-Efficient Federated Learning</h3>
+                            <p class="publication-authors">李华, 张明, 陈晓, 赵亮</p>
+                            <p class="publication-venue">International Conference on Machine Learning (ICML), 2022</p>
+                            <p>我们提出了一种动态剪枝策略，根据客户端的数据分布和模型重要性自适应地调整剪枝率，优化联邦学习的通信效率。</p>
+                            <div class="publication-links">
+                                <a href="#"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="#"><i class="fas fa-code"></i> Code</a>
+                            </div>
+                        </div>
+
+                        <div class="publication-item">
+                            <h3 class="publication-title">A Comprehensive Study of Pruning Strategies in Federated Learning</h3>
+                            <p class="publication-authors">王强, 刘芳, 张明, 李华</p>
+                            <p class="publication-venue">IEEE Transactions on Neural Networks and Learning Systems, 2022</p>
+                            <p>本文系统性地比较了联邦学习中的多种剪枝策略，分析了不同剪枝方法在准确性、效率和鲁棒性方面的权衡。</p>
+                            <div class="publication-links">
+                                <a href="#"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="#"><i class="fas fa-chart-bar"></i> Benchmark</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Documents Page -->
+            <section id="documents" class="page">
+                <div class="page-header">
+                    <h2>文档</h2>
+                    <p>项目文档和使用指南</p>
+                </div>
+                <div class="documents-content">
+                    <div class="doc-categories">
+                        <button class="category-btn active" data-category="all">全部</button>
+                        <button class="category-btn" data-category="getting-started">入门指南</button>
+                        <button class="category-btn" data-category="tutorial">教程</button>
+                        <button class="category-btn" data-category="api">API 文档</button>
+                        <button class="category-btn" data-category="theory">理论</button>
+                    </div>
+
+                    <div class="doc-list">
+                        <div class="doc-card" data-category="getting-started">
+                            <i class="fas fa-rocket doc-icon"></i>
+                            <h3 class="doc-title">快速开始</h3>
+                            <p class="doc-description">在5分钟内安装FedPruning并运行第一个示例。</p>
+                            <div class="doc-meta">
+                                <span>更新: 2023-10-15</span>
+                                <span>15分钟阅读</span>
+                            </div>
+                        </div>
+
+                        <div class="doc-card" data-category="tutorial">
+                            <i class="fas fa-graduation-cap doc-icon"></i>
+                            <h3 class="doc-title">图像分类教程</h3>
+                            <p class="doc-description">使用FedPruning在CIFAR-10数据集上训练剪枝的ResNet模型。</p>
+                            <div class="doc-meta">
+                                <span>更新: 2023-09-28</span>
+                                <span>30分钟阅读</span>
+                            </div>
+                        </div>
+
+                        <div class="doc-card" data-category="api">
+                            <i class="fas fa-code doc-icon"></i>
+                            <h3 class="doc-title">API 参考</h3>
+                            <p class="doc-description">完整的FedPruning API文档，包含所有类和方法的详细说明。</p>
+                            <div class="doc-meta">
+                                <span>更新: 2023-11-05</span>
+                                <span>45分钟阅读</span>
+                            </div>
+                        </div>
+
+                        <div class="doc-card" data-category="theory">
+                            <i class="fas fa-book doc-icon"></i>
+                            <h3 class="doc-title">算法原理</h3>
+                            <p class="doc-description">深入理解FedPruning背后的算法原理和数学基础。</p>
+                            <div class="doc-meta">
+                                <span>更新: 2023-08-12</span>
+                                <span>60分钟阅读</span>
+                            </div>
+                        </div>
+
+                        <div class="doc-card" data-category="tutorial">
+                            <i class="fas fa-mobile-alt doc-icon"></i>
+                            <h3 class="doc-title">移动端部署</h3>
+                            <p class="doc-description">将剪枝后的模型部署到Android和iOS设备的完整指南。</p>
+                            <div class="doc-meta">
+                                <span>更新: 2023-07-20</span>
+                                <span>40分钟阅读</span>
+                            </div>
+                        </div>
+
+                        <div class="doc-card" data-category="getting-started">
+                            <i class="fas fa-cogs doc-icon"></i>
+                            <h3 class="doc-title">配置指南</h3>
+                            <p class="doc-description">FedPruning框架的详细配置选项和最佳实践。</p>
+                            <div class="doc-meta">
+                                <span>更新: 2023-10-30</span>
+                                <span>25分钟阅读</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Members Page -->
+            <section id="members" class="page">
+                <div class="page-header">
+                    <h2>团队成员</h2>
+                    <p>认识FedPruning项目的核心贡献者</p>
+                </div>
+                <div class="members-content">
+                    <div class="member-groups">
+                        <div class="member-group">
+                            <h3>核心团队</h3>
+                            <div class="member-list">
+                                <div class="member-card">
+                                    <img src="https://via.placeholder.com/100/3498db/ffffff?text=ZM" alt="张明" class="member-avatar">
+                                    <h4 class="member-name">张明</h4>
+                                    <p class="member-role">项目负责人</p>
+                                    <p class="member-bio">机器学习研究员，专注于联邦学习和模型压缩，拥有5年相关研究经验。</p>
+                                    <div class="member-links">
+                                        <a href="#"><i class="fab fa-google"></i></a>
+                                        <a href="#"><i class="fab fa-github"></i></a>
+                                        <a href="#"><i class="fab fa-twitter"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="member-card">
+                                    <img src="https://via.placeholder.com/100/e74c3c/ffffff?text=LH" alt="李华" class="member-avatar">
+                                    <h4 class="member-name">李华</h4>
+                                    <p class="member-role">首席算法工程师</p>
+                                    <p class="member-bio">深度学习专家，负责FedPruning核心算法的设计和实现。</p>
+                                    <div class="member-links">
+                                        <a href="#"><i class="fab fa-google"></i></a>
+                                        <a href="#"><i class="fab fa-github"></i></a>
+                                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="member-card">
+                                    <img src="https://via.placeholder.com/100/2ecc71/ffffff?text=WQ" alt="王强" class="member-avatar">
+                                    <h4 class="member-name">王强</h4>
+                                    <p class="member-role">研究科学家</p>
+                                    <p class="member-bio">专注于联邦学习理论分析和实验评估，发表多篇顶级会议论文。</p>
+                                    <div class="member-links">
+                                        <a href="#"><i class="fab fa-google"></i></a>
+                                        <a href="#"><i class="fab fa-github"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="member-group">
+                            <h3>贡献者</h3>
+                            <div class="member-list">
+                                <div class="member-card">
+                                    <img src="https://via.placeholder.com/100/9b59b6/ffffff?text=LF" alt="刘芳" class="member-avatar">
+                                    <h4 class="member-name">刘芳</h4>
+                                    <p class="member-role">软件工程师</p>
+                                    <p class="member-bio">负责FedPruning框架的工程实现和性能优化。</p>
+                                    <div class="member-links">
+                                        <a href="#"><i class="fab fa-github"></i></a>
+                                        <a href="#"><i class="fab fa-twitter"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="member-card">
+                                    <img src="https://via.placeholder.com/100/f39c12/ffffff?text=CX" alt="陈晓" class="member-avatar">
+                                    <h4 class="member-name">陈晓</h4>
+                                    <p class="member-role">研究助理</p>
+                                    <p class="member-bio">负责基准测试和实验分析，协助算法改进。</p>
+                                    <div class="member-links">
+                                        <a href="#"><i class="fab fa-github"></i></a>
+                                    </div>
+                                </div>
+
+                                <div class="member-card">
+                                    <img src="https://via.placeholder.com/100/1abc9c/ffffff?text=ZL" alt="赵亮" class="member-avatar">
+                                    <h4 class="member-name">赵亮</h4>
+                                    <p class="member-role">博士研究生</p>
+                                    <p class="member-bio">研究联邦学习中的隐私保护技术和模型压缩方法。</p>
+                                    <div class="member-links">
+                                        <a href="#"><i class="fab fa-google"></i></a>
+                                        <a href="#"><i class="fab fa-github"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于 FedPruning</h3>
+                    <p>FedPruning 是一个高效的联邦学习模型剪枝框架，专注于在保护数据隐私的同时优化神经网络模型的效率和性能。</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="#" class="nav-link" data-page="about">关于项目</a></li>
+                        <li><a href="#" class="nav-link" data-page="github">GitHub 仓库</a></li>
+                        <li><a href="#" class="nav-link" data-page="publications">出版物</a></li>
+                        <li><a href="#" class="nav-link" data-page="documents">文档</a></li>
+                        <li><a href="#" class="nav-link" data-page="members">团队成员</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p><i class="fas fa-envelope"></i> contact@fedpruning.org</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 北京市海淀区中关村</p>
+                    <p><i class="fas fa-university"></i> 人工智能实验室</p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2023 FedPruning 项目. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
