@@ -38,14 +38,14 @@ Update the markdown, save, then refresh the page in the browser to see the new c
 - The `**Bio**` paragraph becomes the visible description under the name. Email and homepage links automatically render with icons.
 
 **Publications (`public/content/publications.md`)**
-- Organize by year with `## 2024`, `## 2023`, etc.
-- Each entry starts with `### Paper Title` and ends with `---`.
-- Use bold labels (`**Authors**`, `**Venue**`, `**Links**`, optional `**Abstract**`) so the renderer can format citations and buttons.
-- Links need the `[[Text]](URL)` syntax to appear as buttons.
+- Papers use normal Markdown under sections like `## Preprints` and `## Published`.
+- Each item includes the citation plus bold labels (`**Links**`, `**Abstract**`).
+- Buttons use the `[[Text]](URL)` syntax.
+- Content is rendered exactly as written.
 
 **Join Page (`public/content/join.md`)**
-- Front matter supplies the page hero.
-- Freeform markdown content is rendered as written: use headings, bullet lists, and bold labels (`**Duration**`, `**Topics**`, etc.) to organize openings.
+- Front matter sets the page title and description.
+- The Markdown body is displayed exactly as written.
 
 ## Image and Asset Tips
 

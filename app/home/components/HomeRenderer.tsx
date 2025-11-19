@@ -39,7 +39,7 @@ export default function HomeRenderer({ frontMatter, content }: HomeRendererProps
             />
           </div>
           
-          <p className="text-lg text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg text-gray-600 mb-10 max-w-4xl mx-auto leading-relaxed">
             {description}
           </p>
           
