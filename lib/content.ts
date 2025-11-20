@@ -35,6 +35,65 @@ export interface Feature {
   description: string
 }
 
+export interface NewsItem {
+  date: string
+  title: string
+  description: string
+  links: { text: string; url: string }[]
+}
+
+/**
+ * Parses markdown content to extract news items
+ * @param content - Raw markdown content
+ * @returns Array of news items sorted by date
+ */
+export function parseNews(content: string): NewsItem[] {
+  const newsItems: NewsItem[] = []
+  
+  // Split by date headings (## Month Year)
+  const sections = content.split(/^## (.+)$/gm)
+  
+  for (let i = 1; i < sections.length; i += 2) {
+    const date = sections[i].trim()
+    const sectionContent = sections[i + 1]?.trim()
+    
+    if (!sectionContent) continue
+    
+    // Split by separator (---)
+    const items = sectionContent.split(/^---$/gm)
+    
+    for (const item of items) {
+      const trimmed = item.trim()
+      if (!trimmed) continue
+      
+      // Extract title (bold text at the beginning)
+      const titleMatch = trimmed.match(/^\*\*(.+?)\*\*([\s\S]+?)(?=\n\n|\*\*Links\*\*|$)/)
+      if (!titleMatch) continue
+      
+      const title = titleMatch[1].trim()
+      const description = titleMatch[2].trim()
+      
+      // Extract links
+      const links: { text: string; url: string }[] = []
+      const linkRegex = /\[\[([^\]]+)\]\]\(([^)]+)\)/g
+      let linkMatch: RegExpExecArray | null
+      
+      while ((linkMatch = linkRegex.exec(trimmed)) !== null) {
+        links.push({ text: linkMatch[1], url: linkMatch[2] })
+      }
+      
+      newsItems.push({
+        date,
+        title,
+        description,
+        links,
+      })
+    }
+  }
+  
+  return newsItems
+}
+
 /**
  * Parses markdown content to extract publication information
  * @param content - Raw markdown content
@@ -148,11 +207,11 @@ export function parseMemberGroups(content: string): MemberGroup[] {
       const yearMatch = trimmedBlock.match(/\*\*Year\*\*:\s*(.+)$/m)
       const focusMatch = trimmedBlock.match(/\*\*Focus\*\*:\s*(.+)$/m)
       const thesisMatch = trimmedBlock.match(/\*\*Thesis\*\*:\s*(.+)$/m)
-  const currentMatch = trimmedBlock.match(/\*\*Current Position\*\*:\s*(.+)$/m)
-  const bioMatch = trimmedBlock.match(/\*\*Bio\*\*:\s*([\s\S]+?)(?=\n{2,}|\n\*\*|$)/)
+      const currentMatch = trimmedBlock.match(/\*\*Current Position\*\*:\s*(.+)$/m)
+      const bioMatch = trimmedBlock.match(/\*\*Bio\*\*:\s*([\s\S]+?)(?=\n{2,}|\n\*\*|$)/)
       
       // Extract research interests (list items after **Research Interests:**)
-  const interestsSection = trimmedBlock.match(/\*\*Research Interests\*\*:\s*([\s\S]+?)(?=\n\n|\n\*\*|$)/)
+      const interestsSection = trimmedBlock.match(/\*\*Research Interests\*\*:\s*([\s\S]+?)(?=\n\n|\n\*\*|$)/)
       let interests: string[] | undefined
       if (interestsSection) {
         interests = interestsSection[1]
@@ -161,7 +220,7 @@ export function parseMemberGroups(content: string): MemberGroup[] {
           .map(line => line.trim().substring(1).trim())
       }
 
-  const highlightsSection = trimmedBlock.match(/\*\*(?:Highlights|Bio|Background)\*\*:\s*([\s\S]+?)(?=\n\n|\n\*\*|$)/)
+      const highlightsSection = trimmedBlock.match(/\*\*(?:Highlights|Bio|Background)\*\*:\s*([\s\S]+?)(?=\n\n|\n\*\*|$)/)
       let highlights: string[] | undefined
       if (highlightsSection) {
         highlights = highlightsSection[1]

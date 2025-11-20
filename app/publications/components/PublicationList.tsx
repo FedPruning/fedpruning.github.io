@@ -49,73 +49,80 @@ export default function PublicationList({ frontMatter, content }: PublicationLis
       </div>
 
       {/* Publications by section */}
-      {Object.entries(publicationsBySection).map(([sectionTitle, publications]) => (
-        <section key={sectionTitle} className="mb-16">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">
-            {sectionTitle}
-          </h2>
+      {Object.entries(publicationsBySection).map(([sectionTitle, publications]) => {
+        // 如果该 section 没有数据，不渲染
+        if (!publications || publications.length === 0) {
+          return null
+        }
 
-          <div className="space-y-6">
-            {publications.map(pub => {
-              const abstractKey = `${sectionTitle}-${pub.id}`
-              const isAbstractOpen = Boolean(openAbstracts[abstractKey])
+        return (
+          <section key={sectionTitle} className="mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">
+              {sectionTitle}
+            </h2>
 
-              return (
-                <article
-                  key={abstractKey}
-                  className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-                >
-                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 text-base font-semibold text-gray-700 sm:mt-1">
-                      {pub.id}
-                    </span>
+            <div className="space-y-6">
+              {publications.map(pub => {
+                const abstractKey = `${sectionTitle}-${pub.id}`
+                const isAbstractOpen = Boolean(openAbstracts[abstractKey])
 
-                    <div className="flex-1 space-y-4">
-                      <p className="text-base leading-relaxed text-gray-800">
-                        {pub.citation}
-                      </p>
+                return (
+                  <article
+                    key={abstractKey}
+                    className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+                  >
+                    <div className="flex flex-col gap-5 sm:flex-row sm:items-start">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-100 text-base font-semibold text-gray-700 sm:mt-1">
+                        {pub.id}
+                      </span>
 
-                      {(pub.links.length > 0 || pub.abstract) && (
-                        <div className="flex flex-wrap items-center gap-2">
-                          {pub.links.map((link, linkIndex) => (
-                            <a
-                              key={`${abstractKey}-link-${linkIndex}`}
-                              href={link.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={`inline-flex items-center gap-1 rounded-md px-3 py-1 text-sm font-semibold shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-300 ${getBadgeColor(link.text)}`}
-                            >
-                              {link.text}
-                            </a>
-                          ))}
+                      <div className="flex-1 space-y-4">
+                        <p className="text-base leading-relaxed text-gray-800">
+                          {pub.citation}
+                        </p>
 
-                          {pub.abstract && (
-                            <button
-                              type="button"
-                              onClick={() => toggleAbstract(abstractKey)}
-                              className={`${abstractButtonBase} ${isAbstractOpen ? 'bg-[#d8890f]' : ''}`}
-                            >
-                              Abstract
-                            </button>
-                          )}
-                        </div>
-                      )}
+                        {(pub.links.length > 0 || pub.abstract) && (
+                          <div className="flex flex-wrap items-center gap-2">
+                            {pub.links.map((link, linkIndex) => (
+                              <a
+                                key={`${abstractKey}-link-${linkIndex}`}
+                                href={link.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={`inline-flex items-center gap-1 rounded-md px-3 py-1 text-sm font-semibold shadow-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-300 ${getBadgeColor(link.text)}`}
+                              >
+                                {link.text}
+                              </a>
+                            ))}
 
-                      {pub.abstract && isAbstractOpen && (
-                        <div className="rounded-xl border border-gray-200 bg-gray-100 p-5 text-gray-800 shadow-sm">
-                          <p className="text-sm leading-relaxed whitespace-pre-line">
-                            {pub.abstract}
-                          </p>
-                        </div>
-                      )}
+                            {pub.abstract && (
+                              <button
+                                type="button"
+                                onClick={() => toggleAbstract(abstractKey)}
+                                className={`${abstractButtonBase} ${isAbstractOpen ? 'bg-[#d8890f]' : ''}`}
+                              >
+                                Abstract
+                              </button>
+                            )}
+                          </div>
+                        )}
+
+                        {pub.abstract && isAbstractOpen && (
+                          <div className="rounded-xl border border-gray-200 bg-gray-100 p-5 text-gray-800 shadow-sm">
+                            <p className="text-sm leading-relaxed whitespace-pre-line">
+                              {pub.abstract}
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </article>
-              )
-            })}
-          </div>
-        </section>
-      ))}
+                  </article>
+                )
+              })}
+            </div>
+          </section>
+        )
+      })}
     </div>
   )
 }

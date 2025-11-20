@@ -5,24 +5,6 @@ description: Research papers related to FedPruning and federated model compressi
 
 ## Preprints
 
-1. Wang, A., Chen, B. M., & Lee, D. (2024). Efficient federated model compression with structured pruning. *arXiv preprint arXiv:2024.00002.*
-**Links**: [[PDF]](/papers/compression.pdf) [[arXiv]](https://arxiv.org/abs/2024.00002) [[Code]](https://github.com/FedPruning/StructuredPruning)
-
-**Abstract**: This paper presents a structured pruning approach for federated learning that maintains model accuracy while reducing computational requirements. We introduce a novel criterion for selecting channels to prune based on their importance across distributed clients. Experimental results on CIFAR-10, CIFAR-100, and ImageNet demonstrate state-of-the-art performance with up to 80% parameter reduction.
-
-
-2. Zhang, E., & Wilson, F. (2024). Communication-efficient federated learning via dynamic pruning. Manuscript in preparation.
-**Links**: [[PDF]](/papers/dynamic-pruning.pdf) [[Code]](https://github.com/FedPruning/DynamicPruning)
-
-**Abstract**: We introduce a dynamic pruning strategy that adapts the model sparsity during federated training to minimize communication overhead while preserving model accuracy. Our method achieves better accuracy-communication trade-offs compared to static pruning approaches.
-
-
-3. Doe, J., Smith, J., & Wang, A. (2024). FedTiny: Pruned federated learning towards device heterogeneity. Manuscript under review.
-**Links**: [[PDF]](/papers/fedtiny.pdf) [[Code]](https://github.com/FedPruning/FedTiny) [[arXiv]](https://arxiv.org/abs/2024.00001)
-
-**Abstract**: We propose FedTiny, a novel federated pruning method that addresses device heterogeneity in federated learning. By adaptively pruning models based on device capabilities, FedTiny achieves significant compression rates while maintaining competitive accuracy. Our approach reduces communication costs by up to 10x and enables deployment on resource-constrained devices without sacrificing model performance.
-
-
 ## Published
 
 1. FedPruning Team. (2023). FedPruning: A benchmark for federated pruning research. In *Proceedings of the International Conference on Learning Representations (ICLR 2023).* 

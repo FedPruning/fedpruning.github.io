@@ -8,6 +8,7 @@ import Image from 'next/image'
 
 const navLinks = [
   { name: 'Home', href: '/' },
+  { name: 'News', href: '/news' },
   { name: 'Publications', href: '/publications' },
   { name: 'Members', href: '/members' },
   { name: 'Join us', href: '/join' },
@@ -23,19 +24,19 @@ export default function Navigation() {
     <nav className="sticky top-0 z-50 bg-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0 hover:opacity-80 transition-opacity">
             <Image
               src="/image/logo-square.png"
               alt="FedPruning Logo"
-              width={44}
-              height={44}
+              width={46}
+              height={46}
               priority
-              style={{ height: '44px', width: '44px' }}
+              style={{ height: '46px', width: '46px' }}
             />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8 flex-1 justify-end">
+          <div className="hidden md:flex space-x-5 flex-1 justify-end">
             {navLinks.map((link) => {
               const isActive = pathname === link.href
               
