@@ -25,12 +25,12 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center gap-2 flex-shrink-0 hover:opacity-80 transition-opacity">
             <Image
-              src="/image/logo-horizontal.svg"
+              src="/image/logo-square.png"
               alt="FedPruning Logo"
-              width={120}
+              width={44}
               height={44}
               priority
-              style={{ height: '44px', width: '120px' }}
+              style={{ height: '44px', width: '44px' }}
             />
           </Link>
 
