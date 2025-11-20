@@ -182,29 +182,24 @@ export function parsePublications(content: string): { [section: string]: Publica
 export function parseMemberGroups(content: string): MemberGroup[] {
   const groups: MemberGroup[] = []
   
-  // Split by group headings (## Group Name)
-  const groupSections = content.split(/^## (.+)$/gm)
+  const groupSections = content.split(/^## (.*)$/gm)
   
   for (let i = 1; i < groupSections.length; i += 2) {
-    const groupTitle = groupSections[i]
-    const groupContent = groupSections[i + 1]
+    const groupTitle = groupSections[i]?.trim() || ''
+    const groupContent = groupSections[i + 1] || ''
     
-    // Split by member separators (---) or ### headings
     const memberBlocks = groupContent.split(/^---$/gm)
-    
     const members: Member[] = []
     
     for (const block of memberBlocks) {
       const trimmedBlock = block.trim()
       if (!trimmedBlock) continue
       
-      // Extract name (### heading)
       const nameMatch = trimmedBlock.match(/^### (.+)$/m)
       if (!nameMatch) continue
       
       const name = nameMatch[1]
       
-      // Extract other fields
       const positionMatch = trimmedBlock.match(/\*\*Position\*\*:\s*(.+)$/m)
       const institutionMatch = trimmedBlock.match(/\*\*Institution\*\*:\s*(.+)$/m)
       const emailMatch = trimmedBlock.match(/\*\*Email\*\*:\s*(.+)$/m)
@@ -216,7 +211,6 @@ export function parseMemberGroups(content: string): MemberGroup[] {
       const currentMatch = trimmedBlock.match(/\*\*Current Position\*\*:\s*(.+)$/m)
       const bioMatch = trimmedBlock.match(/\*\*Bio\*\*:\s*([\s\S]+?)(?=\n{2,}|\n\*\*|$)/)
       
-      // Extract research interests (list items after **Research Interests:**)
       const interestsSection = trimmedBlock.match(/\*\*Research Interests\*\*:\s*([\s\S]+?)(?=\n\n|\n\*\*|$)/)
       let interests: string[] | undefined
       if (interestsSection) {
@@ -252,12 +246,10 @@ export function parseMemberGroups(content: string): MemberGroup[] {
       })
     }
     
-    if (members.length > 0) {
-      groups.push({
-        title: groupTitle,
-        members,
-      })
-    }
+    groups.push({
+      title: groupTitle,
+      members,
+    })
   }
   
   return groups
