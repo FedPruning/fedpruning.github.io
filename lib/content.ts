@@ -7,6 +7,7 @@ export interface Publication {
   citation: string
   links: { text: string; url: string }[]
   abstract?: string
+  bibtex?: string
 }
 
 export interface Member {
@@ -128,7 +129,7 @@ export function parsePublications(content: string): { [section: string]: Publica
       for (const line of lines) {
         const trimmed = line.trim()
         if (!trimmed) continue
-        if (trimmed.startsWith('**Links**') || trimmed.startsWith('**Abstract**')) {
+        if (trimmed.startsWith('**Links**') || trimmed.startsWith('**Abstract**') || trimmed.startsWith('**BibTeX**')) {
           break
         }
         citationLines.push(trimmed)
@@ -149,14 +150,19 @@ export function parsePublications(content: string): { [section: string]: Publica
         links.push({ text: linkMatch[1], url: linkMatch[2] })
       }
 
-      const abstractMatch = block.match(/\*\*Abstract\*\*:\s*([\s\S]+?)(?=\n{2,}(?:\d+\.\s)|\n##|$)/)
+      const abstractMatch = block.match(/\*\*Abstract\*\*:\s*([\s\S]+?)(?=\n{2,}(?:\d+\.\s)|\n\*\*BibTeX\*\*|\n##|$)/)
       const abstract = abstractMatch ? abstractMatch[1].trim() : undefined
+
+      // 新增：提取 BibTeX
+      const bibtexMatch = block.match(/\*\*BibTeX\*\*:\s*```bibtex\s*([\s\S]+?)\s*```/)
+      const bibtex = bibtexMatch ? bibtexMatch[1].trim() : undefined
 
       publications.push({
         id,
         citation,
         links,
         abstract,
+        bibtex,  // 添加 bibtex 字段
       })
     }
 
