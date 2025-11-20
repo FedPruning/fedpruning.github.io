@@ -71,14 +71,6 @@ export default function Footer() {
                   Documentation
                 </a>
               </div>
-              <div>
-                <a
-                  href="mailto:contact@fedpruning.org"
-                  className="text-gray-600 hover:text-primary transition-colors text-sm"
-                >
-                  Contact
-                </a>
-              </div>
             </div>
           </div>
         </div>
