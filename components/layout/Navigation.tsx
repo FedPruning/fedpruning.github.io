@@ -20,6 +20,12 @@ export default function Navigation() {
   const pathname = usePathname()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+  const isActivePath = (href: string) => {
+    const normalizedPathname = pathname.replace(/\/$/, '') || '/'
+    const normalizedHref = href.replace(/\/$/, '') || '/'
+    return normalizedPathname === normalizedHref
+  }
+
   return (
     <nav className="sticky top-0 z-50 bg-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -36,9 +42,9 @@ export default function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-5 flex-1 justify-end">
+          <div className="hidden md:flex space-x-2 flex-1 justify-end">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href
+              const isActive = !link.external && isActivePath(link.href)
               
               if (link.external) {
                 return (
@@ -47,7 +53,7 @@ export default function Navigation() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-gray-700 hover:text-primary transition-colors duration-200 font-medium"
+                    className="px-3 py-2 rounded-md text-gray-700 hover:text-primary hover:bg-gray-50 transition-all duration-200 font-medium"
                   >
                     {link.name}
                   </a>
@@ -58,10 +64,10 @@ export default function Navigation() {
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`font-medium transition-colors duration-200 ${
+                  className={`px-3 py-2 rounded-md font-medium transition-all duration-200 ${
                     isActive
-                      ? 'text-primary border-b-2 border-primary'
-                      : 'text-gray-700 hover:text-primary'
+                      ? 'text-primary bg-primary/10'
+                      : 'text-gray-700 hover:text-primary hover:bg-gray-50'
                   }`}
                 >
                   {link.name}
@@ -86,7 +92,7 @@ export default function Navigation() {
         <div className="md:hidden border-t border-gray-200">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href
+              const isActive = !link.external && isActivePath(link.href)
               
               if (link.external) {
                 return (
@@ -109,7 +115,7 @@ export default function Navigation() {
                   href={link.href}
                   className={`block px-3 py-2 rounded-md text-base font-medium ${
                     isActive
-                      ? 'text-primary bg-primary-light'
+                      ? 'text-primary bg-primary/10'
                       : 'text-gray-700 hover:text-primary hover:bg-gray-50'
                   }`}
                   onClick={() => setMobileMenuOpen(false)}
