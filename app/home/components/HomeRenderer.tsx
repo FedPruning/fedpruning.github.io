@@ -102,16 +102,18 @@ export default function HomeRenderer({ frontMatter, content }: HomeRendererProps
             </div>
             <div className="space-y-8">
               {recentNews.map((item, index) => (
-                <div key={index} className="border-l-4 border-gray-300 pl-6 hover:border-[#C0165F] transition-colors">
+                <div key={index} className="border-l-4 border-gray-300 pl-6 py-2 hover:border-[#C0165F] transition-colors">
                   <div className="text-sm font-semibold mb-2 text-gray-600">
                     {item.date}
                   </div>
-                  <div className="mb-2">
-                    <span className="font-bold text-gray-800">
-                      {item.title}
-                    </span>
-                    <span className="text-gray-700"> {item.description}</span>
-                  </div>
+                  <div 
+                    className="mb-2 text-gray-800 leading-relaxed"
+                    dangerouslySetInnerHTML={{ 
+                      __html: item.description
+                        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                        .replace(/\n/g, '<br />')
+                    }}
+                  />
                   {item.links.length > 0 && (
                     <div className="flex flex-wrap gap-3 mt-2">
                       {item.links.map((link, linkIndex) => (

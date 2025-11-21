@@ -38,7 +38,6 @@ export interface Feature {
 
 export interface NewsItem {
   date: string
-  title: string
   description: string
   links: { text: string; url: string }[]
 }
@@ -67,13 +66,6 @@ export function parseNews(content: string): NewsItem[] {
       const trimmed = item.trim()
       if (!trimmed) continue
       
-      // Extract title (bold text at the beginning)
-      const titleMatch = trimmed.match(/^\*\*(.+?)\*\*([\s\S]+?)(?=\n\n|\*\*Links\*\*|$)/)
-      if (!titleMatch) continue
-      
-      const title = titleMatch[1].trim()
-      const description = titleMatch[2].trim()
-      
       // Extract links
       const links: { text: string; url: string }[] = []
       const linkRegex = /\[\[([^\]]+)\]\]\(([^)]+)\)/g
@@ -83,9 +75,11 @@ export function parseNews(content: string): NewsItem[] {
         links.push({ text: linkMatch[1], url: linkMatch[2] })
       }
       
+      // Remove the **Links**: section
+      const description = trimmed.replace(/\*\*Links\*\*:[\s\S]*$/, '').trim()
+      
       newsItems.push({
         date,
-        title,
         description,
         links,
       })

@@ -35,12 +35,14 @@ export default function NewsRenderer({ frontMatter, content }: NewsRendererProps
             <div className="text-sm font-semibold mb-2 text-gray-600">
               {item.date}
             </div>
-            <div className="mb-2">
-              <span className="font-bold text-lg text-gray-800">
-                {item.title}
-              </span>
-              <span className="text-gray-700"> {item.description}</span>
-            </div>
+            <div 
+              className="mb-2 text-gray-800 leading-relaxed"
+              dangerouslySetInnerHTML={{ 
+                __html: item.description
+                  .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                  .replace(/\n/g, '<br />')
+              }}
+            />
             {item.links.length > 0 && (
               <div className="flex flex-wrap gap-3 mt-2">
                 {item.links.map((link, linkIndex) => (
