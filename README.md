@@ -9,8 +9,9 @@ Editable content sits under `public/content/`. Each file maps to a route and a r
 | Markdown file | Page URL | React renderer |
 | ------------- | -------- | -------------- |
 | `public/content/home.md` | `/` | `app/home/components/HomeRenderer.tsx`
-| `public/content/members.md` | `/members` | `app/members/components/MemberGrid.tsx`
+| `public/content/news.md` | `/news` | `app/news/components/NewsRenderer.tsx`
 | `public/content/publications.md` | `/publications` | `app/publications/components/PublicationList.tsx`
+| `public/content/members.md` | `/members` | `app/members/components/MemberGrid.tsx`
 | `public/content/join.md` | `/join` | `app/join/components/JoinRenderer.tsx`
 
 Update the markdown, save, then refresh the page in the browser to see the new content.
@@ -30,18 +31,25 @@ Update the markdown, save, then refresh the page in the browser to see the new c
  - The homepage now renders the markdown content directly (using the `HomeRenderer` component).
  - The renderer processes the markdown starting from the intro paragraph and outputs HTML as-written.
 
-**Members (`public/content/members.md`)**
-- `##` headings create member groups (Principal Investigators, PhD Students, etc.).
-- Within each group, start members with `### Name` and separate profiles using `---` on its own line.
-- Supported fields use bold labels: `**Position**`, `**Institution**`, `**Email**`, `**Homepage**`, `**Image**`, and `**Bio**`. The site reads these labels exactly as written.
-- `**Image**` must point to a file in `public/image/`; use square jpg/png images for best results.
-- The `**Bio**` paragraph becomes the visible description under the name. Email and homepage links automatically render with icons.
+**News (`public/content/news.md`)**
+- `##` headings are month/year labels (e.g., `## Sep 2026`).
+- Each news item starts with a bold title on its own line.
+- Optional `**Links**` line uses `[[Text]](URL)` syntax for buttons.
+- Separate items with `---` on its own line.
+- Items are listed chronologically (newest first).
 
 **Publications (`public/content/publications.md`)**
 - Papers use normal Markdown under sections like `## Preprints` and `## Published`.
 - Each item includes the citation plus bold labels (`**Links**`, `**Abstract**`).
 - Buttons use the `[[Text]](URL)` syntax.
 - Content is rendered exactly as written.
+
+**Members (`public/content/members.md`)**
+- `##` headings create member groups (Principal Investigators, PhD Students, etc.).
+- Within each group, start members with `### Name` and separate profiles using `---` on its own line.
+- Supported fields use bold labels: `**Position**`, `**Institution**`, `**Email**`, `**Homepage**`, `**Image**`, and `**Bio**`. The site reads these labels exactly as written.
+- `**Image**` must point to a file in `public/image/`; use square jpg/png images for best results.
+- The `**Bio**` paragraph becomes the visible description under the name. Email and homepage links automatically render with icons.
 
 **Join Page (`public/content/join.md`)**
 - Front matter sets the page title and description.
