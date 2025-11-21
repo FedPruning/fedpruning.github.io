@@ -24,10 +24,10 @@ description: Research papers related to FedPruning and federated model compressi
 ```
 
 
-2. Juntao Hu, Zhengjie Yang, Peng Wang, Guanyi Zhao, Hong Huang, Zhimin Zong, Dapeng Oliver Wu. "Federated Learning for Medical Image Analysis: Privacy-Preserving Paradigms and Clinical Challenges."Transactions on Artificial Intelligence 2025, 1 (1), 153–169. https://doi.org/10.53941/tai.2025.100010.
+2. Juntao Hu, Zhengjie Yang, Peng Wang, Guanyi Zhao, Hong Huang, Zhimin Zong, Dapeng Oliver Wu. "Federated Learning for Medical Image Analysis: Privacy-Preserving Paradigms and Clinical Challenges."Transactions on Artificial Intelligence 2025, 1 (1), 153–169.
 
 
-**Links**: [[PDF]](https://www.sciltp.com/journals/iwt/articles/2508001101)
+**Links**: [[PDF]](https://www.sciltp.com/journals/tai/articles/2508001101)
 
 **Abstract**: Federated Learning (FL) has emerged as a transformative paradigm in medical image analysis, addressing the critical challenges of data scarcity and patient privacy. By enabling collaborative model training across decentralized datasets without requiring data sharing, FL aligns with stringent privacy regulations like HIPAA and GDPR. However, existing surveys on FL for medical image analysis often focus narrowly on aspects like privacy and security or fail to categorize methods within a clear taxonomy. Our survey bridges these gaps by systematically organizing FL methodologies for medical image analysis around three core pillars: training, architecture, and unlearning. We emphasize the unique demands of the medical domain, such as handling heterogeneous imaging modalities and annotations. Unlike prior works, our survey strikes a balance between technical rigor and clinical practicality, covering approaches not only for privacy and security but also for accuracy and efficiency. By synthesizing insights from various studies, we provide a comprehensive roadmap to guide researchers and practitioners in leveraging FL’s potential to advance AI-driven healthcare.
 
